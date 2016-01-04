@@ -23,15 +23,15 @@ module Ahoy
       end
 
       def track_event(name, properties, options, &block)
-        event =
-          event_model.new do |e|
-            e.id = options[:id]
-            e.visit_id = ahoy.visit_id
-            e.user = user if e.respond_to?(:user=)
-            e.name = name
-            e.properties = properties
-            e.time = options[:time]
-          end
+        event = event_model.new(
+          visit_id: ahoy.visit_id,
+          name: name,
+          properties: properties,
+          time: options[:time]
+        )
+
+        event.id = options[:id]
+        event.user = user if event.respond_to?(:user=)
 
         yield(event) if block_given?
 
