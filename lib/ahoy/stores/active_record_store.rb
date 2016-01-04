@@ -2,13 +2,13 @@ module Ahoy
   module Stores
     class ActiveRecordStore < BaseStore
       def track_visit(options, &block)
-        visit =
-          visit_model.new do |v|
-            v.id = ahoy.visit_id
-            v.visitor_id = ahoy.visitor_id
-            v.user = user if v.respond_to?(:user=)
-            v.started_at = options[:started_at]
-          end
+        visit = visit_model.new(
+          visitor_id: ahoy.visitor_id,
+          started_at: options[:started_at]
+        )
+
+        visit.id = ahoy.visit_id
+        visit.user = user if visit.respond_to?(:user=)
 
         set_visit_properties(visit)
 
