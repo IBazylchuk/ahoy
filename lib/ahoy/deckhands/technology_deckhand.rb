@@ -18,13 +18,13 @@ module Ahoy
           browser = Browser.new(@user_agent)
           if browser.bot?
             "Bot"
-          elsif browser.tv?
+          elsif browser.device.tv?
             "TV"
-          elsif browser.console?
+          elsif browser.device.console?
             "Console"
-          elsif browser.tablet?
+          elsif browser.device.tablet?
             "Tablet"
-          elsif browser.mobile?
+          elsif browser.device.mobile?
             "Mobile"
           else
             "Desktop"
