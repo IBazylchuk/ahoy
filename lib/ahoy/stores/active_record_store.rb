@@ -14,11 +14,17 @@ module Ahoy
 
         yield(visit) if block_given?
 
+        count_retry = 0
+
         begin
           visit.save!
           geocode(visit)
         rescue *unique_exception_classes
           # do nothing
+        rescue NoMethodError => e
+          count_retry += 1
+          retry if count_retry < 2
+          raise e
         end
       end
 
@@ -35,10 +41,16 @@ module Ahoy
 
         yield(event) if block_given?
 
+        count_retry = 0
+
         begin
           event.save!
         rescue *unique_exception_classes
           # do nothing
+        rescue NoMethodError => e
+          count_retry += 1
+          retry if count_retry < 2
+          raise e
         end
       end
 
